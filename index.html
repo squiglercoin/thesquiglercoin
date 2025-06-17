@@ -1,108 +1,456 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Squigler Coin Presale</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #ffd700, #ff8c00);
-      color: #fff;
-      text-align: center;
-      padding: 50px;
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Squigler (SQUIG) Presale ?? | Buy Tokens Now</title>
+<style>
+  /* Reset & base */
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #ff6ec4, #7873f5);
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    overflow-x: hidden;
+  }
+  header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  header h1 {
+    font-size: 3rem;
+    text-shadow: 0 0 10px #ff6ec4;
+  }
+  header p {
+    margin-top: 10px;
+    font-size: 1.2rem;
+    color: #eee;
+  }
+
+  /* Wallet & presale panel */
+  .presale-container {
+    background: rgba(255,255,255,0.1);
+    border-radius: 15px;
+    padding: 30px;
+    max-width: 480px;
+    width: 100%;
+    box-shadow: 0 0 30px rgba(255, 110, 196, 0.4);
+    backdrop-filter: blur(15px);
+  }
+
+  .wallet-info {
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+  }
+  .wallet-address {
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: #ff9ede;
+  }
+  button {
+    background: #ff6ec4;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    padding: 14px 22px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    width: 100%;
+    margin-top: 10px;
+    font-weight: 700;
+    box-shadow: 0 0 12px #ff6ec4;
+  }
+  button:hover {
+    background: #ff49b8;
+  }
+  button:disabled {
+    background: #666;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #ffd3ec;
+  }
+  input[type="number"] {
+    width: 100%;
+    padding: 12px 10px;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    box-shadow: inset 0 0 5px #ff6ec4;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+  }
+  input[type="number"]::placeholder {
+    color: #ffc5e1;
+  }
+
+  /* Progress bar */
+  .progress-bar-container {
+    background: rgba(255,255,255,0.2);
+    border-radius: 12px;
+    height: 28px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(255,110,196,0.3);
+  }
+  .progress-bar-fill {
+    background: #ff49b8;
+    height: 100%;
+    width: 0%;
+    transition: width 1s ease;
+  }
+  .progress-text {
+    margin-bottom: 20px;
+    font-weight: 700;
+    text-align: center;
+    text-shadow: 0 0 6px #ff6ec4;
+  }
+
+  /* Countdown timer */
+  .countdown {
+    font-size: 1.4rem;
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #ffcdf7;
+    text-shadow: 0 0 15px #ff6ec4;
+  }
+
+  /* Transaction status */
+  .tx-status {
+    font-size: 1rem;
+    text-align: center;
+    margin: 15px 0;
+    min-height: 24px;
+    font-weight: 600;
+  }
+  .tx-status.success {
+    color: #90ee90;
+  }
+  .tx-status.error {
+    color: #ff6961;
+  }
+  .tx-status.pending {
+    color: #ffd700;
+  }
+
+  /* FAQ Section */
+  .faq-section {
+    margin-top: 50px;
+    max-width: 700px;
+    width: 100%;
+  }
+  .faq-section h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    text-shadow: 0 0 8px #ff6ec4;
+  }
+  .faq-item {
+    background: rgba(255, 255, 255, 0.1);
+    margin-bottom: 15px;
+    border-radius: 12px;
+    padding: 15px 20px;
+    box-shadow: 0 0 15px rgba(255,110,196,0.25);
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  .faq-item:hover {
+    background: rgba(255, 110, 196, 0.25);
+  }
+  .faq-question {
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    font-weight: 400;
+    color: #ffd3ec;
+  }
+  .faq-item.active .faq-answer {
+    max-height: 400px; /* large enough for answer */
+    margin-top: 10px;
+  }
+
+  /* Footer & socials */
+  footer {
+    margin-top: 60px;
+    text-align: center;
+    font-size: 1rem;
+    color: #ffd3ec;
+    user-select: none;
+  }
+  .socials {
+    margin-top: 15px;
+  }
+  .socials a {
+    margin: 0 12px;
+    color: #ff6ec4;
+    text-decoration: none;
+    font-weight: 700;
+    transition: color 0.3s ease;
+  }
+  .socials a:hover {
+    color: #ff49b8;
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    header h1 {
+      font-size: 2rem;
     }
-    h1 {
-      font-size: 3em;
-    }
-    .wallet, .buy-section {
-      background: rgba(0, 0, 0, 0.2);
+    .presale-container {
       padding: 20px;
-      border-radius: 12px;
-      margin: 20px auto;
-      max-width: 500px;
     }
-    input[type="number"] {
-      width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      border: none;
-      margin: 10px 0;
-    }
-    button {
-      background: #000;
-      color: #fff;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    footer {
-      margin-top: 60px;
-    }
-  </style>
-  <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+  }
+</style>
 </head>
 <body>
-  <h1>🚀 Squigler Coin Presale</h1>
-  <p>💰 Get in early! 1 ETH = 1,000,000 SQUIG</p>
+<header>
+  <h1>?? Squigler (SQUIG) Presale ??</h1>
+  <p>Buy tokens before the launch and join the Squigler revolution!</p>
+</header>
 
-  <div class="wallet">
-    <p id="wallet-address">🔌 Wallet not connected</p>
-    <button onclick="connectWallet()">Connect Wallet</button>
+<div class="presale-container" aria-label="Presale Purchase Panel">
+
+  <div class="wallet-info" id="walletStatus">
+    <button id="connectWalletBtn">Connect Wallet</button>
   </div>
 
-  <div class="buy-section">
-    <h2>Buy SQUIG</h2>
-    <input type="number" id="ethAmount" placeholder="Amount in ETH" />
-    <button onclick="buyToken()">Buy Now</button>
-    <p id="status"></p>
+  <div id="walletDetails" style="display:none;">
+    <p>Connected: <span class="wallet-address" id="walletAddress"></span></p>
+    <p>Your ETH Balance: <span id="ethBalance">-</span> ETH</p>
   </div>
 
-  <footer>
-    <p>⚠️ DYOR - This is a presale. Use at your own risk.</p>
-  </footer>
+  <div id="presaleControls" style="display:none;">
+    <label for="ethAmount">Enter ETH amount to spend:</label>
+    <input type="number" id="ethAmount" min="0.0001" step="0.0001" placeholder="0.1" />
+    <p>Rate: <strong>1 ETH = 1,000,000 SQUIG</strong></p>
 
-  <script>
-    let web3;
-    const presaleWallet = "0xB25d9ca06697356D9A440e904Ee3048021fb5Be8";
+    <button id="buyTokensBtn" disabled>Buy Tokens</button>
+    <p style="margin-top:8px; font-style: italic; font-size: 0.9rem;">*Make sure you have enough ETH for gas fees.</p>
+  </div>
 
-    async function connectWallet() {
-      if (window.ethereum) {
-        web3 = new Web3(window.ethereum);
-        try {
-          const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-          document.getElementById("wallet-address").innerText = `Wallet connected: ${accounts[0]}`;
-        } catch (error) {
-          document.getElementById("wallet-address").innerText = "Wallet connection failed.";
-        }
-      } else {
-        alert("Please install MetaMask!");
-      }
+  <div class="progress-text" id="progressText">Raised: 0 ETH / 10 ETH goal</div>
+  <div class="progress-bar-container" aria-label="Progress Bar">
+    <div class="progress-bar-fill" id="progressBar"></div>
+  </div>
+
+  <div class="countdown" aria-live="polite" id="countdownTimer">
+    Presale ends in: -- : -- : -- : --
+  </div>
+
+  <div class="tx-status" id="transactionStatus"></div>
+
+</div>
+
+<section class="faq-section" aria-label="Frequently Asked Questions">
+  <h2>Frequently Asked Questions</h2>
+  <div class="faq-item">
+    <div class="faq-question">What is the presale price?</div>
+    <div class="faq-answer">1 ETH gets you 1,000,000 Squigler tokens (SQUIG).</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-question">When does the presale end?</div>
+    <div class="faq-answer">June 30, 2025, 23:59:59 UTC. After that, you cannot buy tokens from this presale.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-question">How do I buy tokens?</div>
+    <div class="faq-answer">Connect your MetaMask wallet, enter the amount of ETH you want to spend, and click the "Buy Tokens" button. Confirm the transaction in your wallet.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-question">Where can I get more info?</div>
+    <div class="faq-answer">Follow us on Twitter and join our Discord community (links below).</div>
+  </div>
+</section>
+
+<footer>
+  <div>� 2025 Squigler Coin. All rights reserved.</div>
+  <div class="socials">
+    <a href="https://twitter.com/SquiglerCoin" target="_blank" rel="noopener noreferrer">Twitter</a> |
+    <a href="https://discord.gg/squigler" target="_blank" rel="noopener noreferrer">Discord</a>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.min.js"></script>
+<script>
+  // Presale config
+  const presaleContractAddress = "0xB25d9ca06697356D9A440e904Ee3048021fb5Be8";
+  const presaleAbi = [
+    "function buy() payable",
+    "function totalRaised() view returns (uint256)"
+  ];
+  const tokenRate = 1000000; // tokens per 1 ETH
+  const presaleGoalEth = 10; // goal in ETH
+  const presaleEndDate = new Date("2025-06-30T23:59:59Z");
+  const tokenDecimals = 18;
+
+  let provider, signer, contract;
+  let userAddress = null;
+
+  const connectWalletBtn = document.getElementById("connectWalletBtn");
+  const walletStatus = document.getElementById("walletStatus");
+  const walletDetails = document.getElementById("walletDetails");
+  const walletAddressSpan = document.getElementById("walletAddress");
+  const ethBalanceSpan = document.getElementById("ethBalance");
+  const presaleControls = document.getElementById("presaleControls");
+  const ethAmountInput = document.getElementById("ethAmount");
+  const buyTokensBtn = document.getElementById("buyTokensBtn");
+  const transactionStatus = document.getElementById("transactionStatus");
+  const progressBar = document.getElementById("progressBar");
+  const progressText = document.getElementById("progressText");
+  const countdownTimer = document.getElementById("countdownTimer");
+
+  // FAQ toggle
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.addEventListener('click', () => {
+      item.classList.toggle('active');
+    });
+  });
+
+  // Connect wallet function
+  async function connectWallet() {
+    if (!window.ethereum) {
+      alert("MetaMask not detected. Please install MetaMask extension.");
+      return;
     }
+    try {
+      await window.ethereum.request({ method: "eth_requestAccounts" });
+      provider = new ethers.providers.Web3Provider(window.ethereum);
+      signer = provider.getSigner();
+      userAddress = await signer.getAddress();
+      walletAddressSpan.textContent = userAddress;
+      walletStatus.style.display = "none";
+      walletDetails.style.display = "block";
+      presaleControls.style.display = "block";
+      await updateEthBalance();
+      setupContract();
+      buyTokensBtn.disabled = false;
+      startCountdown();
+      updateRaisedProgress();
+    } catch (error) {
+      alert("Wallet connection failed: " + error.message);
+    }
+  }
 
-    async function buyToken() {
-      const ethAmount = document.getElementById("ethAmount").value;
-      const accounts = await web3.eth.getAccounts();
+  connectWalletBtn.addEventListener("click", connectWallet);
 
-      if (!ethAmount || isNaN(ethAmount) || ethAmount <= 0) {
-        document.getElementById("status").innerText = "Please enter a valid ETH amount.";
+  async function updateEthBalance() {
+    try {
+      const balance = await provider.getBalance(userAddress);
+      ethBalanceSpan.textContent = ethers.utils.formatEther(balance);
+    } catch (err) {
+      ethBalanceSpan.textContent = "-";
+    }
+  }
+
+  // Setup contract instance
+  function setupContract() {
+    contract = new ethers.Contract(presaleContractAddress, presaleAbi, signer);
+  }
+
+  // Buy tokens function
+  async function buyTokens() {
+    const ethAmount = ethAmountInput.value;
+    if (!ethAmount || ethAmount <= 0) {
+      alert("Enter a valid ETH amount.");
+      return;
+    }
+    buyTokensBtn.disabled = true;
+    transactionStatus.textContent = "Waiting for transaction confirmation...";
+    transactionStatus.className = "tx-status pending";
+
+    try {
+      const tx = await contract.buy({ value: ethers.utils.parseEther(ethAmount) });
+      transactionStatus.textContent = `Transaction sent: ${tx.hash}`;
+      transactionStatus.className = "tx-status pending";
+
+      await tx.wait();
+      transactionStatus.textContent = "Transaction confirmed! Tokens bought successfully.";
+      transactionStatus.className = "tx-status success";
+
+      await updateEthBalance();
+      updateRaisedProgress();
+    } catch (error) {
+      transactionStatus.textContent = "Transaction failed or rejected.";
+      transactionStatus.className = "tx-status error";
+    }
+    buyTokensBtn.disabled = false;
+  }
+
+  buyTokensBtn.addEventListener("click", buyTokens);
+
+  // Update presale raised progress
+  async function updateRaisedProgress() {
+    try {
+      // For demo, simulate totalRaised, replace with real contract call if available
+      if(contract.totalRaised) {
+        const raisedWei = await contract.totalRaised();
+        const raisedEth = ethers.utils.formatEther(raisedWei);
+        updateProgressBar(parseFloat(raisedEth));
+      } else {
+        // Dummy increment for UI demo
+        const dummyRaised = Math.min(presaleGoalEth, Math.random() * presaleGoalEth);
+        updateProgressBar(dummyRaised);
+      }
+    } catch {
+      // Fallback dummy progress
+      updateProgressBar(0);
+    }
+  }
+
+  function updateProgressBar(raisedEth) {
+    let percent = (raisedEth / presaleGoalEth) * 100;
+    if (percent > 100) percent = 100;
+    progressBar.style.width = percent + "%";
+    progressText.textContent = `Raised: ${raisedEth.toFixed(4)} ETH / ${presaleGoalEth} ETH goal`;
+  }
+
+  // Countdown timer
+  function startCountdown() {
+    function updateTimer() {
+      const now = new Date();
+      let diff = presaleEndDate - now;
+
+      if (diff <= 0) {
+        countdownTimer.textContent = "Presale ended";
+        buyTokensBtn.disabled = true;
+        ethAmountInput.disabled = true;
+        clearInterval(timerInterval);
         return;
       }
 
-      try {
-        await web3.eth.sendTransaction({
-          from: accounts[0],
-          to: presaleWallet,
-          value: web3.utils.toWei(ethAmount, 'ether')
-        });
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      diff -= days * (1000 * 60 * 60 * 24);
+      const hours = Math.floor(diff / (1000 * 60 * 60));
+      diff -= hours * (1000 * 60 * 60);
+      const minutes = Math.floor(diff / (1000 * 60));
+      diff -= minutes * (1000 * 60);
+      const seconds = Math.floor(diff / 1000);
 
-        document.getElementById("status").innerText = `✅ You sent ${ethAmount} ETH. Thank you!`;
-      } catch (error) {
-        console.error(error);
-        document.getElementById("status").innerText = `❌ Transaction failed.`;
-      }
+      countdownTimer.textContent =
+        `Presale ends in: ${days}d : ${hours}h : ${minutes}m : ${seconds}s`;
     }
-  </script>
+    updateTimer();
+    const timerInterval = setInterval(updateTimer, 1000);
+  }
+</script>
+
 </body>
 </html>
