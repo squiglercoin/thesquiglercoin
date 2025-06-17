@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Squigler Presale | 🚀 Buy SQUIG</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Press Start 2P', cursive;
+      background: #000;
+      color: gold;
+      text-align: center;
+    }
+    header {
+      padding: 2rem;
+      background: #111;
+      color: gold;
+      box-shadow: 0 0 20px gold;
+    }
+    .coin-img {
+      width: 200px;
+      animation: float 2s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    button {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 1rem;
+      padding: 1rem 2rem;
+      margin: 1rem;
+      background: gold;
+      color: black;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 0 15px gold;
+    }
+    .content {
+      max-width: 800px;
+      margin: auto;
+      background: #111;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 30px gold;
+    }
+    footer {
+      padding: 1rem;
+      font-size: 0.8rem;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🚀 SQUIGLER PRESALE</h1>
+    <p>Presale Ends: June 30, 2025</p>
+    <p>Raised so far: <strong>$16,000</strong></p>
+  </header>
+
+  <div class="content">
+    <img class="coin-img" src="https://raw.githubusercontent.com/squiglercoin/assets/main/squigcoin.png" alt="SQUIG Coin">
+    <p>Rate: 1 ETH = 1,000,000 SQUIG</p>
+
+    <button onclick="connectWallet()">🔌 Connect Wallet</button>
+    <button onclick="buyTokens()">💰 Buy SQUIG</button>
+
+    <p id="walletAddress">Wallet not connected</p>
+    <p id="status"></p>
+  </div>
+
+  <footer>
+    Made by the Squigler Army 🪱 | Follow <a href="https://twitter.com/SquiglerCoin" target="_blank">@SquiglerCoin</a>
+  </footer>
+
+  <script>
+    let web3;
+    let userAccount;
+    const presaleAddress = "0x2e4D74F8b36Ef4d38c9679A9EB451D9a25af40ac";
+
+    async function connectWallet() {
+      if (window.ethereum) {
+        web3 = new Web3(window.ethereum);
+        try {
+          const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+          userAccount = accounts[0];
+          document.getElementById("walletAddress").textContent = `Wallet connected: ${userAccount}`;
+        } catch (error) {
+          document.getElementById("walletAddress").textContent = '❌ Wallet connection denied.';
+        }
+      } else {
+        alert("MetaMask not found. Please install MetaMask!");
+      }
+    }
+
+    async function buyTokens() {
+      if (!userAccount) {
+        alert("Please connect your wallet first.");
+        return;
+      }
+      const ethAmount = prompt("Enter amount in ETH to contribute (e.g. 0.01):");
+      if (!ethAmount || isNaN(ethAmount)) {
+        alert("Invalid amount.");
+        return;
+      }
+      try {
+        await web3.eth.sendTransaction({
+          from: userAccount,
+          to: presaleAddress,
+          value: web3.utils.toWei(ethAmount, 'ether')
+        });
+        document.getElementById("status").textContent = `✅ Success! You bought ${ethAmount * 1_000_000} SQUIG!`;
+      } catch (error) {
+        document.getElementById("status").textContent = '❌ Transaction failed.';
+        console.error(error);
+      }
+    }
+  </script>
+</body>
+</html>
